@@ -150,7 +150,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 				// this.pickerManager.disablePickers();
 
 				for (var i = 0, n = hosts.length; i < n; i++) {
-					console.log(hosts[i]);
 					var vhost = new Vhost(this.baseUrl, i, hosts[i]);
 					vhost.render(this.output);
 					this.count = i;
@@ -399,7 +398,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 			var wrap = document.createElement('div');
 			wrap.setAttribute('data-id', pickerId);
-			wrap.className = "vhost";
+			var freshClass = !this.options.hostName || !this.options.path ? " fresh" : "";
+			wrap.className = "vhost" + freshClass;
 
 			var hiddenInput = document.createElement('input');
 			hiddenInput.className = "host-name";
@@ -488,7 +488,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 		}, {
 			key: "render",
 			value: function render(outputLocation) {
-				outputLocation.appendChild(this.structure);
+				var firstChild = outputLocation.children[0];
+				outputLocation.insertBefore(this.structure, firstChild);
+				// outputLocation.appendChild( this.structure );
 			}
 		}, {
 			key: "destroy",
